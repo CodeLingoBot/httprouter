@@ -109,7 +109,7 @@ func CleanPath(p string) string {
 	return string(buf[:w])
 }
 
-// internal helper to lazily create a buffer if necessary
+// bufApp; internal helper to lazily create a buffer if necessary
 func bufApp(buf *[]byte, s string, w int, c byte) {
 	if *buf == nil {
 		if s[w] == c {

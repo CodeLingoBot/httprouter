@@ -51,7 +51,7 @@ type node struct {
 	priority  uint32
 }
 
-// increments priority of the given child and reorders if necessary
+// incrementChildPrio increments priority of the given child and reorders if necessary
 func (n *node) incrementChildPrio(pos int) int {
 	n.children[pos].priority++
 	prio := n.children[pos].priority
@@ -322,7 +322,7 @@ func (n *node) insertChild(numParams uint8, path, fullPath string, handle Handle
 	n.handle = handle
 }
 
-// Returns the handle registered with the given path (key). The values of
+// getValue returns the handle registered with the given path (key). The values of
 // wildcards are saved to a map.
 // If no handle can be found, a TSR (trailing slash redirect) recommendation is
 // made if a handle exists with an extra (without the) trailing slash for the
@@ -450,7 +450,7 @@ walk: // outer loop for walking the tree
 	}
 }
 
-// Makes a case-insensitive lookup of the given path and tries to find a handler.
+// findCaseInsensitivePath makes a case-insensitive lookup of the given path and tries to find a handler.
 // It can optionally also fix trailing slashes.
 // It returns the case-corrected path and a bool indicating whether the lookup
 // was successful.
@@ -464,7 +464,7 @@ func (n *node) findCaseInsensitivePath(path string, fixTrailingSlash bool) (ciPa
 	)
 }
 
-// shift bytes in array by n bytes left
+// shiftNRuneBytes bytes in array by n bytes left
 func shiftNRuneBytes(rb [4]byte, n int) [4]byte {
 	switch n {
 	case 0:
@@ -480,7 +480,7 @@ func shiftNRuneBytes(rb [4]byte, n int) [4]byte {
 	}
 }
 
-// recursive case-insensitive lookup function used by n.findCaseInsensitivePath
+// findCaseInsensitivePathRec; recursive case-insensitive lookup function used by n.findCaseInsensitivePath
 func (n *node) findCaseInsensitivePathRec(path, loPath string, ciPath []byte, rb [4]byte, fixTrailingSlash bool) ([]byte, bool) {
 	loNPath := strings.ToLower(n.path)
 
